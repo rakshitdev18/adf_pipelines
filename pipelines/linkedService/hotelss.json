@@ -1,0 +1,13 @@
+{
+	"name": "hotelss",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "RestService",
+		"typeProperties": {
+			"url": "https://tsn-sar-google-exe3epgsd7b3a2d7.centralindia-01.azurewebsites.net",
+			"enableServerCertificateValidation": true,
+			"authenticationType": "Anonymous"
+		}
+	}
+}

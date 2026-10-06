@@ -1,0 +1,16 @@
+{
+	"name": "Weather",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AZ_func",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"typeProperties": {
+			"relativeUrl": "/api/weather?code=${AZURE_FUNCTION_WEATHER_KEY}"
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

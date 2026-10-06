@@ -1,0 +1,17 @@
+{
+	"name": "Restaurants",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureSqlDatabase",
+		"typeProperties": {
+			"server": "travelsync.database.windows.net",
+			"database": "TravelSync_log_sign",
+			"encrypt": "mandatory",
+			"trustServerCertificate": false,
+			"authenticationType": "SQL",
+			"userName": "TravelSyncAdmin",
+			"encryptedCredential": "@{linkedService().encryptedCredential}"
+		}
+	}
+}

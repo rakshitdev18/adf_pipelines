@@ -1,0 +1,28 @@
+{
+	"name": "se",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"parameters": {
+			"engine": {
+				"type": "string"
+			},
+			"q": {
+				"type": "string"
+			},
+			"check_in_date": {
+				"type": "string"
+			},
+			"check_out_date": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "RestService",
+		"typeProperties": {
+			"url": "https://serpapi.com",
+			"enableServerCertificateValidation": true,
+			"authenticationType": "Anonymous",
+			"encryptedCredential": "@{linkedService().encryptedCredential}"
+		}
+	}
+}

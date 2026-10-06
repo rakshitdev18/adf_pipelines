@@ -1,0 +1,15 @@
+{
+	"name": "rakshitarora2005-df",
+	"properties": {
+		"trustModeClaimForMi": {
+			"value": "Disabled",
+			"editable": true
+		}
+	},
+	"location": "centralindia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "@{principalId}",
+		"tenantId": "@{tenantId}"
+	}
+}

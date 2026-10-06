@@ -1,0 +1,668 @@
+{
+	"name": "pipeline1",
+	"properties": {
+		"activities": [
+			{
+				"name": "ETL_hotels",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "RestSource",
+						"additionalColumns": [
+							{
+								"name": "Trip_id",
+								"value": {
+									"value": "@pipeline().parameters.Trip_id",
+									"type": "Expression"
+								}
+							},
+							{
+								"name": "place",
+								"value": {
+									"value": "@pipeline().parameters.destination",
+									"type": "Expression"
+								}
+							}
+						],
+						"httpRequestTimeout": "00:01:40",
+						"requestInterval": "00.00:00:00.010",
+						"requestMethod": "GET",
+						"additionalHeaders": {
+							"x-functions-key": "${AZURE_FUNCTION_HOTELS_KEY}"
+						},
+						"paginationRules": {
+							"supportRFC5988": "true"
+						}
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "$['name']"
+								},
+								"sink": {
+									"name": "hname",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['gps_coordinates']"
+								},
+								"sink": {
+									"name": "coord",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['rate_per_night']['extracted_lowest']"
+								},
+								"sink": {
+									"name": "price",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['images']['thumbnail']"
+								},
+								"sink": {
+									"name": "image_urls",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['overall_rating']"
+								},
+								"sink": {
+									"name": "rating",
+									"type": "Double"
+								}
+							},
+							{
+								"source": {
+									"path": "$['Trip_id']"
+								},
+								"sink": {
+									"name": "TripID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['place']"
+								},
+								"sink": {
+									"name": "Place",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['description']"
+								},
+								"sink": {
+									"name": "DESP",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['link']"
+								},
+								"sink": {
+									"name": "link",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['amenities']"
+								},
+								"sink": {
+									"name": "amenities",
+									"type": "String"
+								}
+							}
+						],
+						"collectionReference": "",
+						"mapComplexValuesToString": true
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "serp_hotelss",
+						"type": "DatasetReference",
+						"parameters": {
+							"notr": {
+								"value": "@{pipeline().parameters.notr}",
+								"type": "Expression"
+							},
+							"st": {
+								"value": "@{pipeline().parameters.start}",
+								"type": "Expression"
+							},
+							"ed": {
+								"value": "@{pipeline().parameters.end}",
+								"type": "Expression"
+							},
+							"des": {
+								"value": "@{pipeline().parameters.destination}",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "AzureSqlTableHotels",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "ETL_Weather",
+				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "RestSource",
+						"additionalColumns": [
+							{
+								"name": "TripID",
+								"value": {
+									"value": "@pipeline().parameters.Trip_id",
+									"type": "Expression"
+								}
+							}
+						],
+						"httpRequestTimeout": "00:01:40",
+						"requestInterval": "00.00:00:00.010",
+						"requestMethod": "POST",
+						"requestBody": {
+							"value": "{\n    \"source\": \"@{pipeline().parameters.source}\",\n    \"destination\": \"@{pipeline().parameters.destination}\",\n    \"start_date\": \"@{pipeline().parameters.start}\",\n    \"end_date\": \"@{pipeline().parameters.end}\"\n}",
+							"type": "Expression"
+						},
+						"paginationRules": {
+							"supportRFC5988": "true"
+						}
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "['date']"
+								},
+								"sink": {
+									"name": "WeatherDate",
+									"type": "Date"
+								}
+							},
+							{
+								"source": {
+									"path": "['temp_max']"
+								},
+								"sink": {
+									"name": "TempMax",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "['temp_mean']"
+								},
+								"sink": {
+									"name": "TempMean",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "['temp_min']"
+								},
+								"sink": {
+									"name": "TempMin",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "['precipitation_sum']"
+								},
+								"sink": {
+									"name": "PrecipitationSum",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "['weathercode']"
+								},
+								"sink": {
+									"name": "WeatherCode",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "['Location']"
+								},
+								"sink": {
+									"name": "Loc",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['TripID']"
+								},
+								"sink": {
+									"name": "TripID",
+									"type": "String"
+								}
+							}
+						],
+						"collectionReference": "$['weather']"
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "Weather",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "AzureSqlTableWeather",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "ETL_Attractions",
+				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "RestSource",
+						"additionalColumns": [
+							{
+								"name": "TripID",
+								"value": {
+									"value": "@pipeline().parameters.Trip_id",
+									"type": "Expression"
+								}
+							},
+							{
+								"name": "Dest",
+								"value": {
+									"value": "@pipeline().parameters.destination",
+									"type": "Expression"
+								}
+							}
+						],
+						"httpRequestTimeout": "00:01:40",
+						"requestInterval": "00.00:00:00.010",
+						"requestMethod": "GET",
+						"paginationRules": {
+							"supportRFC5988": "true"
+						}
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "['title']"
+								},
+								"sink": {
+									"name": "AName",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['gps_coordinates']"
+								},
+								"sink": {
+									"name": "Coord",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['rating']"
+								},
+								"sink": {
+									"name": "Rating",
+									"type": "Double"
+								}
+							},
+							{
+								"source": {
+									"path": "['types']"
+								},
+								"sink": {
+									"name": "AType",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['address']"
+								},
+								"sink": {
+									"name": "Adress",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['description']"
+								},
+								"sink": {
+									"name": "Descp",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['thumbnail']"
+								},
+								"sink": {
+									"name": "Thumbnail",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['TripID']"
+								},
+								"sink": {
+									"name": "TripID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['Dest']"
+								},
+								"sink": {
+									"name": "Place",
+									"type": "String"
+								}
+							}
+						],
+						"collectionReference": "$['local_results']",
+						"mapComplexValuesToString": true
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "RestResource2",
+						"type": "DatasetReference",
+						"parameters": {
+							"dest": {
+								"value": "@pipeline().parameters.destination",
+								"type": "Expression"
+							},
+							"api": "${SERPAPI_API_KEY}"
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "AzureSqlTable1",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "ETL_Restaurants",
+				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "RestSource",
+						"additionalColumns": [
+							{
+								"name": "TRIPID",
+								"value": {
+									"value": "@pipeline().parameters.Trip_id",
+									"type": "Expression"
+								}
+							},
+							{
+								"name": "Place",
+								"value": {
+									"value": "@pipeline().parameters.destination",
+									"type": "Expression"
+								}
+							}
+						],
+						"httpRequestTimeout": "00:01:40",
+						"requestInterval": "00.00:00:00.010",
+						"requestMethod": "GET",
+						"paginationRules": {
+							"supportRFC5988": "true"
+						}
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "['title']"
+								},
+								"sink": {
+									"name": "RName",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['gps_coordinates']"
+								},
+								"sink": {
+									"name": "Coord",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['rating']"
+								},
+								"sink": {
+									"name": "Rating",
+									"type": "Double"
+								}
+							},
+							{
+								"source": {
+									"path": "['types']"
+								},
+								"sink": {
+									"name": "RType",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['address']"
+								},
+								"sink": {
+									"name": "Adress",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['description']"
+								},
+								"sink": {
+									"name": "Descp",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['thumbnail']"
+								},
+								"sink": {
+									"name": "Thumbnail",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['TRIPID']"
+								},
+								"sink": {
+									"name": "TripID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['Place']"
+								},
+								"sink": {
+									"name": "Place",
+									"type": "String"
+								}
+							}
+						],
+						"collectionReference": "$['local_results']",
+						"mapComplexValuesToString": true
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "Serp_rest",
+						"type": "DatasetReference",
+						"parameters": {
+							"Des": {
+								"value": "@pipeline().parameters.destination",
+								"type": "Expression"
+							},
+							"TripID": {
+								"value": "@pipeline().parameters.Trip_id",
+								"type": "Expression"
+							},
+							"API": "${SERPAPI_API_KEY}"
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "AzureSqlTableRestaurants",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"parameters": {
+			"user_name": {
+				"type": "string",
+				"defaultValue": "TestUser"
+			},
+			"destination": {
+				"type": "string"
+			},
+			"source": {
+				"type": "string"
+			},
+			"start": {
+				"type": "string"
+			},
+			"end": {
+				"type": "string"
+			},
+			"notr": {
+				"type": "string"
+			},
+			"Trip_id": {
+				"type": "string"
+			},
+			"api_key": {
+				"type": "string",
+				"defaultValue": "${SERPAPI_API_KEY}"
+			}
+		},
+		"variables": {
+			"user_result": {
+				"type": "String"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2026-09-22T15:09:38Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

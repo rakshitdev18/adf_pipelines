@@ -1,0 +1,26 @@
+{
+	"name": "RestResource2",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "RestService2",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"dest": {
+				"type": "string"
+			},
+			"api": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"typeProperties": {
+			"relativeUrl": {
+				"value": "/search.json?engine=google_maps&q=Places+to+visit+in+@{dataset().dest}&api_key=@{dataset().api}",
+				"type": "Expression"
+			}
+		},
+		"schema": []
+	}
+}

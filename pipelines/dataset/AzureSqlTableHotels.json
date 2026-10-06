@@ -1,0 +1,58 @@
+{
+	"name": "AzureSqlTableHotels",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSQLforHotels",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "TripID",
+				"type": "varchar"
+			},
+			{
+				"name": "hname",
+				"type": "varchar"
+			},
+			{
+				"name": "coord",
+				"type": "nvarchar"
+			},
+			{
+				"name": "link",
+				"type": "nvarchar"
+			},
+			{
+				"name": "rating",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "price",
+				"type": "nvarchar"
+			},
+			{
+				"name": "image_urls",
+				"type": "nvarchar"
+			},
+			{
+				"name": "amenities",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESP",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Place",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "Hotels"
+		}
+	}
+}

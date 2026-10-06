@@ -1,0 +1,58 @@
+{
+	"name": "AzureSqlTableWeather",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "weather",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "TripID",
+				"type": "varchar"
+			},
+			{
+				"name": "Loc",
+				"type": "varchar"
+			},
+			{
+				"name": "WeatherDate",
+				"type": "date"
+			},
+			{
+				"name": "TempMax",
+				"type": "decimal",
+				"precision": 6,
+				"scale": 2
+			},
+			{
+				"name": "TempMean",
+				"type": "decimal",
+				"precision": 6,
+				"scale": 2
+			},
+			{
+				"name": "TempMin",
+				"type": "decimal",
+				"precision": 6,
+				"scale": 2
+			},
+			{
+				"name": "PrecipitationSum",
+				"type": "decimal",
+				"precision": 6,
+				"scale": 2
+			},
+			{
+				"name": "WeatherCode",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "Weather"
+		}
+	}
+}

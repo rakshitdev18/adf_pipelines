@@ -1,0 +1,52 @@
+{
+	"name": "AzureSqlTable1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabaseAttractions",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "TripID",
+				"type": "varchar"
+			},
+			{
+				"name": "hname",
+				"type": "varchar"
+			},
+			{
+				"name": "coord",
+				"type": "nvarchar"
+			},
+			{
+				"name": "link",
+				"type": "nvarchar"
+			},
+			{
+				"name": "rating",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "price",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "image_urls",
+				"type": "nvarchar"
+			},
+			{
+				"name": "amenities",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "Attractions"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

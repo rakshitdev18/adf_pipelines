@@ -1,0 +1,13 @@
+{
+	"name": "AzureFunction1",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureFunction",
+		"typeProperties": {
+			"functionAppUrl": "https://tsn-sar-google-exe3epgsd7b3a2d7.centralindia-01.azurewebsites.net",
+			"authentication": "Anonymous",
+			"encryptedCredential": "@{linkedService().encryptedCredential}"
+		}
+	}
+}

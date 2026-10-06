@@ -1,0 +1,54 @@
+{
+	"name": "AzureSqlTableRestaurants",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Restaurants",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "TripID",
+				"type": "nvarchar"
+			},
+			{
+				"name": "RName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Coord",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Rating",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "Place",
+				"type": "varchar"
+			},
+			{
+				"name": "RType",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Adress",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Descp",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Thumbnail",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "Restaurants"
+		}
+	}
+}

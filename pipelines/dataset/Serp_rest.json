@@ -1,0 +1,29 @@
+{
+	"name": "Serp_rest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "res",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"Des": {
+				"type": "string"
+			},
+			"TripID": {
+				"type": "string"
+			},
+			"API": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"typeProperties": {
+			"relativeUrl": {
+				"value": "/search.json?engine=google_maps&q=Restaurants+in+@{dataset().Des}&api_key=@{dataset().API}",
+				"type": "Expression"
+			}
+		},
+		"schema": []
+	}
+}

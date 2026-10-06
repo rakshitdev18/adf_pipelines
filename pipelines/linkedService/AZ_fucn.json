@@ -1,0 +1,21 @@
+{
+	"name": "AZ_fucn",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"parameters": {
+			"origin": {
+				"type": "string"
+			},
+			"destination": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "AzureFunction",
+		"typeProperties": {
+			"functionAppUrl": "https://tsn-sar-google-exe3epgsd7b3a2d7.centralindia-01.azurewebsites.net",
+			"authentication": "Anonymous",
+			"encryptedCredential": "@{linkedService().encryptedCredential}"
+		}
+	}
+}

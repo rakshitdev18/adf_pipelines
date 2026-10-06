@@ -1,0 +1,33 @@
+{
+	"name": "serp_hotelss",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "hotelss",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"notr": {
+				"type": "string"
+			},
+			"st": {
+				"type": "string"
+			},
+			"ed": {
+				"type": "string"
+			},
+			"des": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"typeProperties": {
+			"relativeUrl": {
+				"value": "/api/hotels?code=${AZURE_FUNCTION_HOTELS_KEY}&destination=@{dataset().des}&notr=@{dataset().notr}&start=@{dataset().st}&end=@{dataset().ed}",
+				"type": "Expression"
+			}
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
